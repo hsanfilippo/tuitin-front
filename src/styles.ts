@@ -1,7 +1,9 @@
 import { createGlobalStyle } from 'styled-components'
 import styled from 'styled-components'
 
-export const cores = {}
+export const cores = {
+  preto: '#0a0a0a'
+}
 
 export const GlobalCss = createGlobalStyle`
   * {
@@ -11,6 +13,10 @@ export const GlobalCss = createGlobalStyle`
     font-family: Roboto, sans-serif;
     list-style: none;
     text-decoration: none;
+
+    body {
+      background-color: ${cores.preto};
+    }
   }
 `
 
