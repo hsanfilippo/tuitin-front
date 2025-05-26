@@ -29,10 +29,23 @@ const api = createApi({
         method: 'POST',
         body: body
       })
+    }),
+    postFollow: builder.mutation<any, string>({
+      query: (username) => ({
+        url: `users/${username}/follow/`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+      })
     })
   })
 })
 
-export const { usePostAuthMutation, usePostRegisterMutation } = api
+export const {
+  usePostAuthMutation,
+  usePostRegisterMutation,
+  usePostFollowMutation
+} = api
 
 export default api
