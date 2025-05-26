@@ -10,7 +10,7 @@ const Rotas = () => (
     <Route path="/" element={<LoginCadastro />} />
     <Route element={<RequireAuth />}>
       <Route path="/home" element={<Home />} />
-      <Route path="/perfil/:id" element={<Perfil />} />
+      <Route path="/perfil/:username" element={<Perfil />} />
     </Route>
   </Routes>
 )

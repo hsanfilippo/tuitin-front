@@ -15,7 +15,7 @@ export const mockPosts = [
   {
     id: 2,
     name: 'Henrique',
-    username: 'hsanf',
+    username: 'jao',
     avatarUrl: 'https://placehold.co/400x400',
     date: '24/05/2025',
     content: 'Sei la, oige ta um dia estranho. Nem sol, nem chuva, nem ela.'
@@ -23,7 +23,7 @@ export const mockPosts = [
   {
     id: 3,
     name: 'Henrique',
-    username: 'hsanf',
+    username: 'naomyn',
     avatarUrl: 'https://placehold.co/400x400',
     date: '24/05/2025',
     content: 'Se pa eu vo comprar uma moto'
@@ -59,7 +59,7 @@ const Perfil = () => {
     <>
       <Sidebar avatarUrl="https://placehold.co/400x400" />
       <Profile
-        username="hsanf"
+        pageUsername="hsanf"
         name="Henrique"
         avatarUrl="https://placehold.co/400x400"
         bannerUrl="https://placehold.co/700x400"

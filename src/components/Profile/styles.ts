@@ -55,7 +55,7 @@ export const Username = styled.span`
   font-size: 16px;
 `
 
-export const EditButton = styled.button`
+export const Button = styled.button`
   position: absolute;
   top: -32px;
   right: 16px;

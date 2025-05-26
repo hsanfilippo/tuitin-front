@@ -29,6 +29,11 @@ export const Header = styled.div`
 
 export const Name = styled.span`
   font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    color: ${cores.azulClaro};
+  }
 `
 
 export const Username = styled.span`

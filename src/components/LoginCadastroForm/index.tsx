@@ -1,25 +1,53 @@
-import { useState } from 'react'
-import { Logo, Button, Card, Container, Input, Title, Toggle } from './styles'
-import logoDocker from '../../assets/images/docker_logo.png'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { usePostAuthMutation } from '../../services/api'
+import { RootReducer } from '../../store'
+import { setUserLogedIn } from '../../store/reducers/auth'
+
+import {
+  usePostAuthMutation,
+  usePostRegisterMutation
+} from '../../services/api'
+
+import { Logo, Button, Card, Container, Input, Title, Toggle } from './styles'
+import logoDocker from '../../assets/images/docker_logo.png'
 
 const LoginCadastroForm = () => {
   const [isSignup, setIsSignup] = useState(false)
-  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { userLogedIn } = useSelector((state: RootReducer) => state.auth)
 
   const [authenticate, { isLoading, isError, isSuccess }] =
     usePostAuthMutation()
+  const [register] = usePostRegisterMutation()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (isSignup) {
-      console.log('Cadastrar:', { name, username, password })
+      const registerPayload = {
+        email: email,
+        username: username,
+        password: password
+      }
+
+      try {
+        const response = await register(registerPayload).unwrap()
+        console.log(response)
+
+        setEmail('')
+        setUsername('')
+        setPassword('')
+        setIsSignup(false)
+        alert('Cadastro realizado!')
+      } catch (error) {
+        alert('Dados do formulário incorretos. Tente novamente.')
+      }
     } else {
       const loginPayload = {
         username: username,
@@ -31,6 +59,16 @@ const LoginCadastroForm = () => {
         console.log(response)
         localStorage.setItem('access', response.access)
         localStorage.setItem('refresh', response.refresh)
+
+        // GET em /api/me para armazenar o username logado no momento,
+        // apenas se o login for autenticado corretamente (existir o access).
+        const responseMe = await fetch('http://localhost:8000/api/me/', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+          }
+        })
+        const dataMe = await responseMe.json()
+        dispatch(setUserLogedIn(dataMe.username))
 
         console.log(localStorage.getItem('access'))
         console.log(localStorage.getItem('refresh'))
@@ -44,6 +82,11 @@ const LoginCadastroForm = () => {
     }
   }
 
+  // Debug:
+  useEffect(() => {
+    console.log(`Usuário logado: ${userLogedIn}`)
+  }, [userLogedIn])
+
   return (
     <Container>
       <Card>
@@ -54,10 +97,10 @@ const LoginCadastroForm = () => {
         <form onSubmit={handleSubmit}>
           {isSignup && (
             <Input
-              type="text"
-              placeholder="Nome"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              type="email"
+              placeholder="E-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           )}
@@ -76,7 +119,9 @@ const LoginCadastroForm = () => {
             required
           />
           {isSignup ? (
-            <Button type="submit">Cadastrar</Button>
+            <Button type="submit" onClick={handleSubmit}>
+              Cadastrar
+            </Button>
           ) : (
             <Button type="submit" onClick={handleSubmit}>
               Entrar

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import {
   Actions,
   Avatar,
@@ -19,13 +20,17 @@ type Props = {
 }
 
 const Post = ({ avatarUrl, name, username, content, date }: Props) => {
+  const navigate = useNavigate()
+
   return (
     <>
       <Container>
         <Avatar src={avatarUrl} alt="Avatar" />
         <PostContent>
           <Header>
-            <Name>{name}</Name>
+            <Name onClick={() => navigate(`/perfil/${username}`)}>
+              {username}
+            </Name>
             <Username>@{username}</Username>
             <Dot>·</Dot>
             <Username>{date}</Username>
