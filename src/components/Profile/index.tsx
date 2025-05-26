@@ -1,8 +1,13 @@
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import { RootReducer } from '../../store'
-import { usePostFollowMutation } from '../../services/api'
+import {
+  usePostFollowMutation,
+  usePostUnfollowMutation,
+  useGetIsFollowingQuery
+} from '../../services/api'
 
 import {
   Avatar,
@@ -22,25 +27,42 @@ type Props = {
 }
 
 const Profile = ({ bannerUrl, avatarUrl, name, pageUsername }: Props) => {
+  // Estados locais
+  const [localFollowing, setLocalFollowing] = useState<boolean | null>(null)
+
+  // Desestruturacao da store
   const { userLogedIn } = useSelector((state: RootReducer) => state.auth)
   const { username } = useParams<{ username: string }>()
   console.log(`Voce esta visitando o perfil de: ${username}`)
 
-  const isOwnProfile = userLogedIn === username
-
+  // Alias dos Hooks
   const [followUser] = usePostFollowMutation()
+  const [unfollowUser] = usePostUnfollowMutation()
+  const { data } = useGetIsFollowingQuery(username!)
 
-  const handleFollow = async () => {
-    if (!username) return
+  const handleFollowToggle = async () => {
+    if (!username || localFollowing === null) return
 
     try {
-      await followUser(username).unwrap()
-      alert('Seguido com sucesso!')
+      if (localFollowing) {
+        await unfollowUser(username)
+        setLocalFollowing(false)
+      } else {
+        await followUser(username).unwrap()
+        setLocalFollowing(true)
+      }
     } catch (error) {
-      console.error('Erro ao seguir:', error)
-      alert('Erro ao seguir o usuário.')
+      console.error('Erro ao seguir/deixar de seguir:', error)
     }
   }
+
+  const isOwnProfile = userLogedIn === username
+
+  useEffect(() => {
+    if (data && localFollowing === null) {
+      setLocalFollowing(data.is_following)
+    }
+  }, [data])
 
   return (
     <>
@@ -52,7 +74,9 @@ const Profile = ({ bannerUrl, avatarUrl, name, pageUsername }: Props) => {
           {isOwnProfile ? (
             <Button>Editar perfil</Button>
           ) : (
-            <Button onClick={handleFollow}>Seguir</Button>
+            <Button onClick={handleFollowToggle}>
+              {localFollowing ? 'Seguindo' : 'Seguir'}
+            </Button>
           )}
           <Name>{username}</Name>
           <Username>@{username}</Username>
