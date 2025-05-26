@@ -11,7 +11,7 @@ type RegisterPayload = {
   password: string
 }
 
-type UpdateMePayload = {
+type UserData = {
   username?: string
   profile?: {
     avatar?: string | null
@@ -27,6 +27,15 @@ const api = createApi({
     baseUrl: 'http://localhost:8000/api'
   }),
   endpoints: (builder) => ({
+    getUserData: builder.query<UserData, string>({
+      query: (username) => ({
+        url: `users/${username}/`,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+      })
+    }),
     postAuth: builder.mutation<any, AuthPayload>({
       query: (body) => ({
         url: 'token/',
@@ -68,7 +77,7 @@ const api = createApi({
         }
       })
     }),
-    patchUpdateMe: builder.mutation<any, UpdateMePayload>({
+    patchUpdateMe: builder.mutation<any, UserData>({
       query: (body) => ({
         url: 'me/',
         method: 'PATCH',
@@ -82,6 +91,7 @@ const api = createApi({
 })
 
 export const {
+  useGetUserDataQuery,
   usePostAuthMutation,
   usePostRegisterMutation,
   usePostFollowMutation,
