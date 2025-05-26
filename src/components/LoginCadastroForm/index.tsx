@@ -3,20 +3,44 @@ import { Logo, Button, Card, Container, Input, Title, Toggle } from './styles'
 import logoDocker from '../../assets/images/docker_logo.png'
 import { useNavigate } from 'react-router-dom'
 
+import { usePostAuthMutation } from '../../services/api'
+
 const LoginCadastroForm = () => {
   const [isSignup, setIsSignup] = useState(false)
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [authenticate, { isLoading, isError, isSuccess }] =
+    usePostAuthMutation()
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (isSignup) {
-      console.log('Cadastrar:', { name, email, password })
+      console.log('Cadastrar:', { name, username, password })
     } else {
-      console.log('Login:', { email, password })
+      const loginPayload = {
+        username: username,
+        password: password
+      }
+
+      try {
+        const response = await authenticate(loginPayload).unwrap()
+        console.log(response)
+        localStorage.setItem('access', response.access)
+        localStorage.setItem('refresh', response.refresh)
+
+        console.log(localStorage.getItem('access'))
+        console.log(localStorage.getItem('refresh'))
+
+        setUsername('')
+        setPassword('')
+        navigate('/home')
+      } catch (error) {
+        alert('Usuário ou senha inválidos, tente novamente.')
+      }
     }
   }
 
@@ -38,10 +62,10 @@ const LoginCadastroForm = () => {
             />
           )}
           <Input
-            type="email"
-            placeholder="E-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            placeholder="Nome de usuário"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
           <Input
@@ -54,7 +78,7 @@ const LoginCadastroForm = () => {
           {isSignup ? (
             <Button type="submit">Cadastrar</Button>
           ) : (
-            <Button type="submit" onClick={() => navigate('/home')}>
+            <Button type="submit" onClick={handleSubmit}>
               Entrar
             </Button>
           )}
