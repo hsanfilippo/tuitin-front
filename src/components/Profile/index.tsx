@@ -9,6 +9,8 @@ import {
   useGetIsFollowingQuery
 } from '../../services/api'
 
+import EditModal from '../EditModal'
+
 import {
   Avatar,
   Banner,
@@ -29,6 +31,7 @@ type Props = {
 const Profile = ({ bannerUrl, avatarUrl, name, pageUsername }: Props) => {
   // Estados locais
   const [localFollowing, setLocalFollowing] = useState<boolean | null>(null)
+  const [showEditModal, setShowEditModal] = useState(false)
 
   // Desestruturacao da store
   const { userLogedIn } = useSelector((state: RootReducer) => state.auth)
@@ -72,7 +75,9 @@ const Profile = ({ bannerUrl, avatarUrl, name, pageUsername }: Props) => {
         </Banner>
         <Content>
           {isOwnProfile ? (
-            <Button>Editar perfil</Button>
+            <Button onClick={() => setShowEditModal(true)}>
+              Editar perfil
+            </Button>
           ) : (
             <Button onClick={handleFollowToggle}>
               {localFollowing ? 'Seguindo' : 'Seguir'}
@@ -84,6 +89,7 @@ const Profile = ({ bannerUrl, avatarUrl, name, pageUsername }: Props) => {
         <Content>
           <h4>Posts</h4>
         </Content>
+        {showEditModal && <EditModal onClose={() => setShowEditModal(false)} />}
       </Container>
     </>
   )
