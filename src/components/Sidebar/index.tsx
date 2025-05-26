@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { Avatar, Bottom, Container, Logo, Top } from './styles'
 import dockerLogo from '../../assets/images/docker_logo.png'
 import logoutIcon from '../../assets/images/logout_vector.svg'
+import { logout } from '../../utils/auth'
 
 type Props = {
   avatarUrl: string
@@ -23,7 +24,10 @@ const Sidebar = ({ avatarUrl }: Props) => {
             alt="Logout icon"
             title="Sair"
             className="icon"
-            onClick={() => navigate('/')}
+            onClick={() => {
+              logout()
+              navigate('/')
+            }}
           />
         </Logo>
         <Avatar
