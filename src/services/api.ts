@@ -86,7 +86,8 @@ export const {
   usePostRegisterMutation,
   usePostFollowMutation,
   usePostUnfollowMutation,
-  useGetIsFollowingQuery
+  useGetIsFollowingQuery,
+  usePatchUpdateMeMutation
 } = api
 
 export default api
