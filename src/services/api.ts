@@ -38,6 +38,24 @@ const api = createApi({
           Authorization: `Bearer ${localStorage.getItem('access')}`
         }
       })
+    }),
+    postUnfollow: builder.mutation<any, string>({
+      query: (username) => ({
+        url: `users/${username}/unfollow/`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+      })
+    }),
+    getIsFollowing: builder.query<{ is_following: boolean }, string>({
+      query: (username) => ({
+        url: `users/${username}/is_following/`,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+      })
     })
   })
 })
@@ -45,7 +63,9 @@ const api = createApi({
 export const {
   usePostAuthMutation,
   usePostRegisterMutation,
-  usePostFollowMutation
+  usePostFollowMutation,
+  usePostUnfollowMutation,
+  useGetIsFollowingQuery
 } = api
 
 export default api
