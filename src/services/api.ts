@@ -5,6 +5,12 @@ type AuthPayload = {
   password: string
 }
 
+type RegisterPayload = {
+  email: string
+  username: string
+  password: string
+}
+
 const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:8000/api'
@@ -16,10 +22,17 @@ const api = createApi({
         method: 'POST',
         body: body
       })
+    }),
+    postRegister: builder.mutation<any, RegisterPayload>({
+      query: (body) => ({
+        url: 'register/',
+        method: 'POST',
+        body: body
+      })
     })
   })
 })
 
-export const { usePostAuthMutation } = api
+export const { usePostAuthMutation, usePostRegisterMutation } = api
 
 export default api

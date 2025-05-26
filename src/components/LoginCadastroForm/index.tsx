@@ -3,11 +3,14 @@ import { Logo, Button, Card, Container, Input, Title, Toggle } from './styles'
 import logoDocker from '../../assets/images/docker_logo.png'
 import { useNavigate } from 'react-router-dom'
 
-import { usePostAuthMutation } from '../../services/api'
+import {
+  usePostAuthMutation,
+  usePostRegisterMutation
+} from '../../services/api'
 
 const LoginCadastroForm = () => {
   const [isSignup, setIsSignup] = useState(false)
-  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -16,10 +19,29 @@ const LoginCadastroForm = () => {
   const [authenticate, { isLoading, isError, isSuccess }] =
     usePostAuthMutation()
 
+  const [register] = usePostRegisterMutation()
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (isSignup) {
-      console.log('Cadastrar:', { name, username, password })
+      const registerPayload = {
+        email: email,
+        username: username,
+        password: password
+      }
+
+      try {
+        const response = await register(registerPayload).unwrap()
+        console.log(response)
+
+        setEmail('')
+        setUsername('')
+        setPassword('')
+        setIsSignup(false)
+        alert('Cadastro realizado!')
+      } catch (error) {
+        alert('Dados do formulário incorretos. Tente novamente.')
+      }
     } else {
       const loginPayload = {
         username: username,
@@ -54,10 +76,10 @@ const LoginCadastroForm = () => {
         <form onSubmit={handleSubmit}>
           {isSignup && (
             <Input
-              type="text"
-              placeholder="Nome"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              type="email"
+              placeholder="E-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           )}
@@ -76,7 +98,9 @@ const LoginCadastroForm = () => {
             required
           />
           {isSignup ? (
-            <Button type="submit">Cadastrar</Button>
+            <Button type="submit" onClick={handleSubmit}>
+              Cadastrar
+            </Button>
           ) : (
             <Button type="submit" onClick={handleSubmit}>
               Entrar
