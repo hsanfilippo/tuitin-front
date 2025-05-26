@@ -1,8 +1,13 @@
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+
+import { logout } from '../../utils/auth'
+import { clearUserLogedIn } from '../../store/reducers/auth'
+
 import { Avatar, Bottom, Container, Logo, Top } from './styles'
 import dockerLogo from '../../assets/images/docker_logo.png'
 import logoutIcon from '../../assets/images/logout_vector.svg'
-import { logout } from '../../utils/auth'
+import { RootReducer } from '../../store'
 
 type Props = {
   avatarUrl: string
@@ -10,6 +15,10 @@ type Props = {
 
 const Sidebar = ({ avatarUrl }: Props) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const { userLogedIn } = useSelector((state: RootReducer) => state.auth)
+
   return (
     <Container>
       <Top>
@@ -27,6 +36,7 @@ const Sidebar = ({ avatarUrl }: Props) => {
             onClick={() => {
               logout()
               navigate('/')
+              dispatch(clearUserLogedIn())
             }}
           />
         </Logo>
@@ -34,7 +44,7 @@ const Sidebar = ({ avatarUrl }: Props) => {
           src={avatarUrl}
           alt="Avatar"
           title="Meu perfil"
-          onClick={() => navigate('/perfil/1')}
+          onClick={() => navigate(`/perfil/${userLogedIn}`)}
         />
       </Bottom>
     </Container>
