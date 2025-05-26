@@ -1,9 +1,5 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-// import {
-//   useUpdateProfileMutation,
-//   useGetProfileQuery
-// } from '../../services/usersApi'
 
 import {
   Modal,
@@ -12,6 +8,10 @@ import {
   InputItem,
   ButtonsContainer
 } from './styles'
+import {
+  useGetUserDataQuery,
+  usePatchUpdateMeMutation
+} from '../../services/api'
 
 type EditProfileModalProps = {
   onClose: () => void
@@ -19,35 +19,56 @@ type EditProfileModalProps = {
 
 const EditModal = ({ onClose }: EditProfileModalProps) => {
   const { username } = useParams<{ username: string }>()
-  // const { data: profile } = useGetProfileQuery(username!)
-  // const [updateProfile] = useUpdateProfileMutation()
+  const { data: userData, refetch } = useGetUserDataQuery(username!)
+  const [updateProfile] = usePatchUpdateMeMutation()
 
   const [name, setName] = useState('')
   const [bio, setBio] = useState('')
   const [birthdate, setBirthdate] = useState('')
   const [avatar, setAvatar] = useState('')
   const [cover, setCover] = useState('')
+  const [newUsername, setNewUsername] = useState('')
 
-  // useEffect(() => {
-  //   if (profile) {
-  //     setName(profile.name || '')
-  //     setBio(profile.bio || '')
-  //     setBirthdate(profile.birthdate || '')
-  //   }
-  // }, [profile])
+  const [newData, setNewData] = useState({
+    username: '',
+    profile: {
+      avatar: '',
+      bio: '',
+      birthdate: '',
+      cover: '',
+      name: ''
+    }
+  })
+
+  useEffect(() => {
+    if (userData) {
+      setName(userData.profile?.name || '')
+      setBio(userData.profile?.bio || '')
+      setBirthdate(userData.profile?.birthdate || '')
+      setAvatar(userData.profile?.avatar || '')
+      setCover(userData.profile?.cover || '')
+      setNewUsername(userData.username || '')
+    }
+  }, [userData])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // try {
-    //   await updateProfile({
-    //     name,
-    //     bio,
-    //     birthdate
-    //   })
-    //   onClose()
-    // } catch (err) {
-    //   console.error('Erro ao atualizar perfil:', err)
-    // }
+    try {
+      await updateProfile({
+        username: newUsername,
+        profile: {
+          avatar,
+          bio,
+          birthdate,
+          cover,
+          name
+        }
+      })
+      await refetch()
+      onClose()
+    } catch (err) {
+      console.error('Erro ao atualizar perfil:', err)
+    }
   }
 
   return (
@@ -58,11 +79,14 @@ const EditModal = ({ onClose }: EditProfileModalProps) => {
           <form onSubmit={handleSubmit}>
             <InputItem>
               <label>Imagem de fundo</label>
-              <input value={cover} onChange={(e) => setName(e.target.value)} />
+              <input value={cover} onChange={(e) => setCover(e.target.value)} />
             </InputItem>
             <InputItem>
               <label>Imagem de perfil</label>
-              <input value={avatar} onChange={(e) => setName(e.target.value)} />
+              <input
+                value={avatar}
+                onChange={(e) => setAvatar(e.target.value)}
+              />
             </InputItem>
             <InputItem>
               <label>Nome</label>
@@ -71,8 +95,8 @@ const EditModal = ({ onClose }: EditProfileModalProps) => {
             <InputItem>
               <label>Nome de usuário</label>
               <input
-                value={username}
-                onChange={(e) => setName(e.target.value)}
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
               />
             </InputItem>
             <InputItem>
