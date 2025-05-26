@@ -1,12 +1,17 @@
-import { useState } from 'react'
-import { Logo, Button, Card, Container, Input, Title, Toggle } from './styles'
-import logoDocker from '../../assets/images/docker_logo.png'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+
+import { RootReducer } from '../../store'
+import { setUserLogedIn } from '../../store/reducers/auth'
 
 import {
   usePostAuthMutation,
   usePostRegisterMutation
 } from '../../services/api'
+
+import { Logo, Button, Card, Container, Input, Title, Toggle } from './styles'
+import logoDocker from '../../assets/images/docker_logo.png'
 
 const LoginCadastroForm = () => {
   const [isSignup, setIsSignup] = useState(false)
@@ -15,10 +20,11 @@ const LoginCadastroForm = () => {
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { userLogedIn } = useSelector((state: RootReducer) => state.auth)
 
   const [authenticate, { isLoading, isError, isSuccess }] =
     usePostAuthMutation()
-
   const [register] = usePostRegisterMutation()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,6 +60,16 @@ const LoginCadastroForm = () => {
         localStorage.setItem('access', response.access)
         localStorage.setItem('refresh', response.refresh)
 
+        // GET em /api/me para armazenar o username logado no momento,
+        // apenas se o login for autenticado corretamente (existir o access).
+        const responseMe = await fetch('http://localhost:8000/api/me/', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+          }
+        })
+        const dataMe = await responseMe.json()
+        dispatch(setUserLogedIn(dataMe.username))
+
         console.log(localStorage.getItem('access'))
         console.log(localStorage.getItem('refresh'))
 
@@ -65,6 +81,11 @@ const LoginCadastroForm = () => {
       }
     }
   }
+
+  // Debug:
+  useEffect(() => {
+    console.log(`Usuário logado: ${userLogedIn}`)
+  }, [userLogedIn])
 
   return (
     <Container>
