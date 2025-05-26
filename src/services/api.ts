@@ -11,6 +11,17 @@ type RegisterPayload = {
   password: string
 }
 
+type UpdateMePayload = {
+  username?: string
+  profile?: {
+    avatar?: string | null
+    bio?: string | null
+    birthdate?: string | null
+    cover?: string | null
+    name?: string | null
+  }
+}
+
 const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:8000/api'
@@ -52,6 +63,16 @@ const api = createApi({
       query: (username) => ({
         url: `users/${username}/is_following/`,
         method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+      })
+    }),
+    patchUpdateMe: builder.mutation<any, UpdateMePayload>({
+      query: (body) => ({
+        url: 'me/',
+        method: 'PATCH',
+        body: body,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access')}`
         }
