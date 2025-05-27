@@ -54,7 +54,7 @@ export const Actions = styled.div`
   display: flex;
   justify-content: space-between;
   max-width: 425px;
-  color: #71767b;
+  color: ${cores.cinzaClaro};
   font-size: 14px;
 
   svg {
