@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { logout } from '../../utils/auth'
-import { clearUserLogedIn } from '../../store/reducers/auth'
+// import { clearUserLogedIn } from '../../store/reducers/auth'
 
 import { Avatar, Bottom, Container, Logo, Top } from './styles'
 import dockerLogo from '../../assets/images/docker_logo.png'
@@ -17,7 +17,8 @@ const Sidebar = ({ avatarUrl }: Props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { userLogedIn } = useSelector((state: RootReducer) => state.auth)
+  // const { userLogedIn } = useSelector((state: RootReducer) => state.auth)
+  const userLogedIn = localStorage.getItem('userLogedIn')
 
   return (
     <Container>
@@ -36,7 +37,7 @@ const Sidebar = ({ avatarUrl }: Props) => {
             onClick={() => {
               logout()
               navigate('/')
-              dispatch(clearUserLogedIn())
+              localStorage.removeItem('userLogedIn')
             }}
           />
         </Logo>

@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-import { RootReducer } from '../../store'
 import {
   usePostFollowMutation,
   usePostUnfollowMutation,
@@ -34,7 +32,7 @@ const Profile = ({ bannerUrl, avatarUrl, name, pageUsername }: Props) => {
   const [showEditModal, setShowEditModal] = useState(false)
 
   // Desestruturacao da store
-  const { userLogedIn } = useSelector((state: RootReducer) => state.auth)
+  const userLogedIn = localStorage.getItem('userLogedIn')
   const { username } = useParams<{ username: string }>()
   console.log(`Voce esta visitando o perfil de: ${username}`)
 
