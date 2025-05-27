@@ -1,14 +1,13 @@
 import Post from '../Post'
-import GetPostTypes from '../../models/PostTypes'
 
-type Props = {
-  posts: GetPostTypes[]
-}
+import { useGetPostsQuery } from '../../services/api'
 
-const PostsHome = ({ posts }: Props) => {
+const PostsHome = () => {
+  const { data: posts, refetch } = useGetPostsQuery()
+
   return (
     <>
-      {posts.map((post) => (
+      {posts?.map((post) => (
         <Post
           key={post.id}
           avatarUrl={post.author_avatar}
