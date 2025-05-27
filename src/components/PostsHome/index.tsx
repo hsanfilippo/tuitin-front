@@ -3,7 +3,7 @@ import Post from '../Post'
 import { useGetPostsQuery } from '../../services/api'
 
 const PostsHome = () => {
-  const { data: posts, refetch } = useGetPostsQuery()
+  const { data: posts } = useGetPostsQuery()
 
   return (
     <>

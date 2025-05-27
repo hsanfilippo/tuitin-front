@@ -5,8 +5,8 @@ import Sidebar from '../../components/Sidebar'
 const Home = () => {
   return (
     <>
-      <Sidebar avatarUrl="https://placehold.co/400x400" />
-      <Postar avatarUrl="https://placehold.co/400x400" />
+      <Sidebar />
+      <Postar />
       <PostsHome />
     </>
   )
