@@ -8,7 +8,7 @@ import {
   Textarea
 } from './styles'
 
-import { usePostNewPostMutation } from '../../services/api'
+import { usePostNewPostMutation, useGetPostsQuery } from '../../services/api'
 
 type Props = {
   avatarUrl: string
@@ -16,7 +16,7 @@ type Props = {
 
 const Postar = ({ avatarUrl }: Props) => {
   const [text, setText] = useState('')
-
+  const { refetch } = useGetPostsQuery()
   const [newPost] = usePostNewPostMutation()
 
   const handlePost = async () => {
@@ -40,7 +40,13 @@ const Postar = ({ avatarUrl }: Props) => {
             onChange={(e) => setText(e.target.value)}
           />
           <Actions>
-            <PostButton disabled={!text.trim()} onClick={handlePost}>
+            <PostButton
+              disabled={!text.trim()}
+              onClick={() => {
+                handlePost()
+                refetch()
+              }}
+            >
               Postar
             </PostButton>
           </Actions>
