@@ -6,6 +6,16 @@ export type GetPostTypes = {
   content: string
   created_at: string
   author: number
+  comments: [
+    {
+      id: number
+      post: string
+      author: 1
+      author_username: string
+      content: string
+      created_at: string
+    }
+  ]
 }
 
 export type NewPostTypes = {
