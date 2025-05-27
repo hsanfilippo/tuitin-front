@@ -67,10 +67,10 @@ export const Text = styled.p`
 `
 
 export const Actions = styled.div`
-  max-width: 425px;
   color: ${cores.cinzaClaro};
   font-size: 14px;
   margin-top: 24px;
+  padding-right: 80px;
 
   > div {
     display: flex;
@@ -83,7 +83,6 @@ export const Icons = styled.ul`
   display: flex;
   justify-content: space-between;
   cursor: pointer;
-  position: relative;
 
   .isToggle {
     fill: red;
@@ -91,7 +90,11 @@ export const Icons = styled.ul`
 `
 
 export const DeleteContainer = styled.div`
-  position: absolute;
-  right: 80px;
-  cursor: pointer;
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+
+  span {
+    cursor: pointer;
+  }
 `

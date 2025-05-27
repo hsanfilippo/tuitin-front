@@ -20,16 +20,27 @@ import { ReactComponent as CommentIcon } from '../../assets/images/comment_icon.
 import { ReactComponent as ShareIcon } from '../../assets/images/share_icon.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/images/delete_icon.svg'
 
+import { useDeletePostMutation, useGetPostsQuery } from '../../services/api'
+
 type Props = {
   avatarUrl: string
   name: string
   username: string
   content: string
   date: string
+  id: string
 }
 
-const Post = ({ avatarUrl, name, username, content, date }: Props) => {
+const Post = ({ avatarUrl, name, username, content, date, id }: Props) => {
   const navigate = useNavigate()
+  const userLogedIn = localStorage.getItem('userLogedIn')
+  const [deletePost] = useDeletePostMutation()
+  const { refetch } = useGetPostsQuery()
+
+  const handleDelete = async (postId: string) => {
+    await deletePost(postId)
+    await refetch()
+  }
 
   return (
     <>
@@ -71,7 +82,11 @@ const Post = ({ avatarUrl, name, username, content, date }: Props) => {
               <Dot>·</Dot>
               <small>{formataHora(date)}</small>
               <DeleteContainer>
-                <DeleteIcon />
+                {username === userLogedIn && (
+                  <span>
+                    <DeleteIcon onClick={() => handleDelete(id)} />
+                  </span>
+                )}
               </DeleteContainer>
             </div>
           </Actions>

@@ -108,6 +108,16 @@ const api = createApi({
           'Content-Type': 'application/json'
         }
       })
+    }),
+    deletePost: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `posts/${id}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json'
+        }
+      })
     })
   })
 })
@@ -121,7 +131,8 @@ export const {
   useGetIsFollowingQuery,
   usePatchUpdateMeMutation,
   useGetPostsQuery,
-  usePostNewPostMutation
+  usePostNewPostMutation,
+  useDeletePostMutation
 } = api
 
 export default api
