@@ -99,11 +99,15 @@ const api = createApi({
         body: body
       })
     }),
-    postNewPost: builder.query<any, NewPost>({
+    postNewPost: builder.mutation<any, NewPost>({
       query: (body) => ({
         url: 'posts/',
         method: 'POST',
-        body: body
+        body: body,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json'
+        }
       })
     })
   })
@@ -116,7 +120,9 @@ export const {
   usePostFollowMutation,
   usePostUnfollowMutation,
   useGetIsFollowingQuery,
-  usePatchUpdateMeMutation
+  usePatchUpdateMeMutation,
+  useGetPostsQuery,
+  usePostNewPostMutation
 } = api
 
 export default api
