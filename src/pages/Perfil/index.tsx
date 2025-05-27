@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom'
 import Post from '../../components/Post'
 import Profile from '../../components/Profile'
 import Sidebar from '../../components/Sidebar'
@@ -5,11 +6,11 @@ import Sidebar from '../../components/Sidebar'
 import { useGetPostsQuery } from '../../services/api'
 
 const Perfil = () => {
-  const userLogedIn = localStorage.getItem('userLogedIn')
+  const { username } = useParams<{ username: string }>()
   const { data: postsData } = useGetPostsQuery()
 
   const filteredPosts = postsData?.filter(
-    (post) => post.author_username === userLogedIn
+    (post) => post.author_username === username
   )
 
   return (
@@ -26,6 +27,7 @@ const Perfil = () => {
               date={post.created_at}
               name={post.author_name}
               content={post.content}
+              id={post.id}
             />
           ))}
         </>

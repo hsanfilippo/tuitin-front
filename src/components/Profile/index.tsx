@@ -93,6 +93,9 @@ const Profile = () => {
             <Username>@{userData.username}</Username>
           </Content>
           <Content>
+            <p>{userData.profile?.bio}</p>
+          </Content>
+          <Content>
             <h4>Posts</h4>
           </Content>
           {showEditModal && (
