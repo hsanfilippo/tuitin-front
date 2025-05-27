@@ -46,6 +46,7 @@ export const Textarea = styled.textarea`
   min-height: 80px;
   margin-bottom: 8px;
   padding: 16px 64px 16px 16px;
+  width: 100%;
 
   &::placeholder {
     color: #71767b;
