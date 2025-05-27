@@ -8,6 +8,8 @@ import {
   Textarea
 } from './styles'
 
+import { usePostNewPostMutation } from '../../services/api'
+
 type Props = {
   avatarUrl: string
 }
@@ -15,9 +17,16 @@ type Props = {
 const Postar = ({ avatarUrl }: Props) => {
   const [text, setText] = useState('')
 
-  const handlePost = () => {
+  const [newPost] = usePostNewPostMutation()
+
+  const handlePost = async () => {
     if (!text.trim()) return
-    setText('')
+    try {
+      await newPost({ content: text }).unwrap()
+      setText('')
+    } catch (err) {
+      console.error('Erro ao postar:', err)
+    }
   }
 
   return (
