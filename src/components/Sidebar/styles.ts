@@ -59,3 +59,22 @@ export const Avatar = styled.img`
     opacity: 0.8;
   }
 `
+
+export const StockAvatar = styled.div`
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${cores.azulClaro};
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: 24px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`

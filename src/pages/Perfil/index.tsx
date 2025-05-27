@@ -72,13 +72,8 @@ export const mockPosts = [
 const Perfil = () => {
   return (
     <>
-      <Sidebar avatarUrl="https://placehold.co/400x400" />
-      <Profile
-        pageUsername="hsanf"
-        name="Henrique"
-        avatarUrl="https://placehold.co/400x400"
-        bannerUrl="https://placehold.co/700x400"
-      />
+      <Sidebar />
+      <Profile />
       {mockPosts.map((post) => (
         <Post
           key={post.id}

@@ -4,18 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import { logout } from '../../utils/auth'
 // import { clearUserLogedIn } from '../../store/reducers/auth'
 
-import { Avatar, Bottom, Container, Logo, Top } from './styles'
+import { Avatar, Bottom, Container, StockAvatar, Logo, Top } from './styles'
 import dockerLogo from '../../assets/images/docker_logo.png'
 import logoutIcon from '../../assets/images/logout_vector.svg'
-import { RootReducer } from '../../store'
+import { useGetUserDataQuery } from '../../services/api'
 
-type Props = {
-  avatarUrl: string
-}
-
-const Sidebar = ({ avatarUrl }: Props) => {
+const Sidebar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const username = localStorage.getItem('userLogedIn')
+  const { data: userData } = useGetUserDataQuery(username!)
 
   // const { userLogedIn } = useSelector((state: RootReducer) => state.auth)
   const userLogedIn = localStorage.getItem('userLogedIn')
@@ -41,12 +39,21 @@ const Sidebar = ({ avatarUrl }: Props) => {
             }}
           />
         </Logo>
-        <Avatar
-          src={avatarUrl}
-          alt="Avatar"
-          title="Meu perfil"
-          onClick={() => navigate(`/perfil/${userLogedIn}`)}
-        />
+        {userData?.profile?.avatar === '' ? (
+          <StockAvatar
+            title="Meu perfil"
+            onClick={() => navigate(`/perfil/${userLogedIn}`)}
+          >
+            {username?.charAt(0).toUpperCase()}
+          </StockAvatar>
+        ) : (
+          <Avatar
+            src={`${userData?.profile?.avatar}`}
+            alt="Avatar"
+            title="Meu perfil"
+            onClick={() => navigate(`/perfil/${userLogedIn}`)}
+          />
+        )}
       </Bottom>
     </Container>
   )

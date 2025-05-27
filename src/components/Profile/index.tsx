@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom'
 import {
   usePostFollowMutation,
   usePostUnfollowMutation,
-  useGetIsFollowingQuery
+  useGetIsFollowingQuery,
+  useGetUserDataQuery
 } from '../../services/api'
 
 import EditModal from '../EditModal'
@@ -16,17 +17,12 @@ import {
   Content,
   Button,
   Name,
-  Username
+  Username,
+  StockBanner,
+  StockAvatar
 } from './styles'
 
-type Props = {
-  bannerUrl: string
-  avatarUrl: string
-  name: string
-  pageUsername: string
-}
-
-const Profile = ({ bannerUrl, avatarUrl, name, pageUsername }: Props) => {
+const Profile = () => {
   // Estados locais
   const [localFollowing, setLocalFollowing] = useState<boolean | null>(null)
   const [showEditModal, setShowEditModal] = useState(false)
@@ -40,6 +36,7 @@ const Profile = ({ bannerUrl, avatarUrl, name, pageUsername }: Props) => {
   const [followUser] = usePostFollowMutation()
   const [unfollowUser] = usePostUnfollowMutation()
   const { data } = useGetIsFollowingQuery(username!)
+  const { data: userData } = useGetUserDataQuery(username!)
 
   const handleFollowToggle = async () => {
     if (!username || localFollowing === null) return
@@ -67,28 +64,44 @@ const Profile = ({ bannerUrl, avatarUrl, name, pageUsername }: Props) => {
 
   return (
     <>
-      <Container>
-        <Banner bannerUrl={bannerUrl}>
-          <Avatar src={avatarUrl} alt="Avatar" />
-        </Banner>
-        <Content>
-          {isOwnProfile ? (
-            <Button onClick={() => setShowEditModal(true)}>
-              Editar perfil
-            </Button>
-          ) : (
-            <Button onClick={handleFollowToggle}>
-              {localFollowing ? 'Seguindo' : 'Seguir'}
-            </Button>
+      {userData ? (
+        <Container>
+          <Banner bannerUrl={`${userData.profile?.cover}`} className="no-image">
+            {userData.profile?.avatar === '' ? (
+              <StockAvatar>
+                {userData.username?.charAt(0).toUpperCase()}
+              </StockAvatar>
+            ) : (
+              <Avatar src={`${userData.profile?.avatar}`} />
+            )}
+          </Banner>
+          <Content>
+            {isOwnProfile ? (
+              <Button onClick={() => setShowEditModal(true)}>
+                Editar perfil
+              </Button>
+            ) : (
+              <Button onClick={handleFollowToggle}>
+                {localFollowing ? 'Seguindo' : 'Seguir'}
+              </Button>
+            )}
+            {userData.profile?.name === '' ? (
+              <Name>{userData.username}</Name>
+            ) : (
+              <Name>{userData.profile?.name}</Name>
+            )}
+            <Username>@{userData.username}</Username>
+          </Content>
+          <Content>
+            <h4>Posts</h4>
+          </Content>
+          {showEditModal && (
+            <EditModal onClose={() => setShowEditModal(false)} />
           )}
-          <Name>{username}</Name>
-          <Username>@{username}</Username>
-        </Content>
-        <Content>
-          <h4>Posts</h4>
-        </Content>
-        {showEditModal && <EditModal onClose={() => setShowEditModal(false)} />}
-      </Container>
+        </Container>
+      ) : (
+        <h3>carregando...</h3>
+      )}
     </>
   )
 }
