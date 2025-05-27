@@ -3,7 +3,7 @@ import { cores } from '../../styles'
 
 export const Container = styled.div`
   width: 72px;
-  height: 100vh;
+  height: 100svh;
   background-color: ${cores.preto};
   color: #fff;
   border-right: 1px solid ${cores.azulClaro};
