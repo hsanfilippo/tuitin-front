@@ -3,8 +3,10 @@ import {
   Actions,
   Avatar,
   Container,
+  DeleteContainer,
   Dot,
   Header,
+  Icons,
   Name,
   PostContent,
   StockAvatar,
@@ -12,6 +14,11 @@ import {
   Username
 } from './styles'
 import formataHora from '../../utils/formataHora'
+
+import { ReactComponent as LikeIcon } from '../../assets/images/like_icon.svg'
+import { ReactComponent as CommentIcon } from '../../assets/images/comment_icon.svg'
+import { ReactComponent as ShareIcon } from '../../assets/images/share_icon.svg'
+import { ReactComponent as DeleteIcon } from '../../assets/images/delete_icon.svg'
 
 type Props = {
   avatarUrl: string
@@ -43,12 +50,30 @@ const Post = ({ avatarUrl, name, username, content, date }: Props) => {
                 {name}
               </Name>
             )}
-            <Dot>·</Dot>
             <Username>@{username}</Username>
           </Header>
           <Text>{content}</Text>
           <Actions>
-            <small>{formataHora(date)}</small>
+            <div>
+              <div>
+                <Icons>
+                  <li>
+                    <LikeIcon className="" />
+                  </li>
+                  <li>
+                    <CommentIcon />
+                  </li>
+                  <li>
+                    <ShareIcon />
+                  </li>
+                </Icons>
+              </div>
+              <Dot>·</Dot>
+              <small>{formataHora(date)}</small>
+              <DeleteContainer>
+                <DeleteIcon />
+              </DeleteContainer>
+            </div>
           </Actions>
         </PostContent>
       </Container>
