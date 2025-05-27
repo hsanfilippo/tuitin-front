@@ -27,6 +27,11 @@ type NewPost = {
   content: string
 }
 
+type NewComment = {
+  post: string
+  content: string
+}
+
 const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:8000/api'
@@ -113,6 +118,27 @@ const api = createApi({
       query: (id) => ({
         url: `posts/${id}`,
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+    }),
+    likePost: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `posts/${id}/toggle_like/`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+    }),
+    newComment: builder.mutation<any, NewComment>({
+      query: (body) => ({
+        url: 'comentarios/',
+        method: 'POST',
+        body: body,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access')}`,
           'Content-Type': 'application/json'
