@@ -76,6 +76,12 @@ export const Actions = styled.div`
     display: flex;
     align-items: center;
   }
+
+  small {
+    display: inline;
+    max-width: 200px;
+    width: 100%;
+  }
 `
 
 export const Icons = styled.ul`
