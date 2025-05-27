@@ -16,6 +16,7 @@ const PostsHome = () => {
           date={post.created_at}
           content={post.content}
           id={post.id}
+          comments={post.comments}
         />
       ))}
     </>

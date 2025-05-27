@@ -15,12 +15,21 @@ import {
 } from './styles'
 import formataHora from '../../utils/formataHora'
 
-import { ReactComponent as LikeIcon } from '../../assets/images/like_icon.svg'
-import { ReactComponent as CommentIcon } from '../../assets/images/comment_icon.svg'
-import { ReactComponent as ShareIcon } from '../../assets/images/share_icon.svg'
+// import { ReactComponent as LikeIcon } from '../../assets/images/like_icon.svg'
+// import { ReactComponent as CommentIcon } from '../../assets/images/comment_icon.svg'
+// import { ReactComponent as ShareIcon } from '../../assets/images/share_icon.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/images/delete_icon.svg'
 
 import { useDeletePostMutation, useGetPostsQuery } from '../../services/api'
+
+type Comentario = {
+  id: number
+  post: string
+  author: number
+  author_username: string
+  content: string
+  created_at: string
+}
 
 type Props = {
   avatarUrl: string
@@ -29,9 +38,18 @@ type Props = {
   content: string
   date: string
   id: string
+  comments: Comentario[]
 }
 
-const Post = ({ avatarUrl, name, username, content, date, id }: Props) => {
+const Post = ({
+  avatarUrl,
+  name,
+  username,
+  content,
+  date,
+  id,
+  comments
+}: Props) => {
   const navigate = useNavigate()
   const userLogedIn = localStorage.getItem('userLogedIn')
   const [deletePost] = useDeletePostMutation()
@@ -66,7 +84,7 @@ const Post = ({ avatarUrl, name, username, content, date, id }: Props) => {
           <Text>{content}</Text>
           <Actions>
             <div>
-              <div>
+              {/* <div>
                 <Icons>
                   <li>
                     <LikeIcon className="" />
@@ -79,7 +97,7 @@ const Post = ({ avatarUrl, name, username, content, date, id }: Props) => {
                   </li>
                 </Icons>
               </div>
-              <Dot>·</Dot>
+              <Dot>·</Dot> */}
               <small>{formataHora(date)}</small>
               <DeleteContainer>
                 {username === userLogedIn && (

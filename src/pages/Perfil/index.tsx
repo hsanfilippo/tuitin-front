@@ -28,6 +28,7 @@ const Perfil = () => {
               name={post.author_name}
               content={post.content}
               id={post.id}
+              comments={post.comments}
             />
           ))}
         </>
