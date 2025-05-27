@@ -92,11 +92,10 @@ const api = createApi({
         }
       })
     }),
-    getPosts: builder.query<GetPostTypes, any>({
-      query: (body) => ({
+    getPosts: builder.query<GetPostTypes[], void>({
+      query: () => ({
         url: 'posts/',
-        method: 'GET',
-        body: body
+        method: 'GET'
       })
     }),
     postNewPost: builder.mutation<any, NewPost>({
