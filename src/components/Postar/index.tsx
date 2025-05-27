@@ -5,38 +5,66 @@ import {
   Avatar,
   InputArea,
   PostButton,
-  Textarea
+  Textarea,
+  StockAvatar
 } from './styles'
 
-type Props = {
-  avatarUrl: string
-}
+import {
+  usePostNewPostMutation,
+  useGetPostsQuery,
+  useGetUserDataQuery
+} from '../../services/api'
 
-const Postar = ({ avatarUrl }: Props) => {
+const Postar = () => {
+  const username = localStorage.getItem('userLogedIn')
   const [text, setText] = useState('')
+  const { refetch } = useGetPostsQuery()
+  const { data: userData } = useGetUserDataQuery(username!)
+  const [newPost] = usePostNewPostMutation()
 
-  const handlePost = () => {
+  const handlePost = async () => {
     if (!text.trim()) return
-    setText('')
+    try {
+      await newPost({ content: text }).unwrap()
+      setText('')
+      refetch()
+    } catch (err) {
+      console.error('Erro ao postar:', err)
+    }
   }
 
   return (
     <>
-      <Container>
-        <Avatar src={avatarUrl} alt="Avatar" />
-        <InputArea>
-          <Textarea
-            placeholder="O que está acontecendo?"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-          <Actions>
-            <PostButton disabled={!text.trim()} onClick={handlePost}>
-              Postar
-            </PostButton>
-          </Actions>
-        </InputArea>
-      </Container>
+      {userData ? (
+        <Container>
+          {userData.profile?.avatar === '' ? (
+            <StockAvatar>
+              {userData.username?.charAt(0).toUpperCase()}
+            </StockAvatar>
+          ) : (
+            <Avatar src={`${userData.profile?.avatar}`} />
+          )}
+          <InputArea>
+            <Textarea
+              placeholder="O que está acontecendo?"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            <Actions>
+              <PostButton
+                disabled={!text.trim()}
+                onClick={() => {
+                  handlePost()
+                }}
+              >
+                Postar
+              </PostButton>
+            </Actions>
+          </InputArea>
+        </Container>
+      ) : (
+        <h3>Carregando...</h3>
+      )}
     </>
   )
 }

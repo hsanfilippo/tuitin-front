@@ -7,9 +7,11 @@ import {
   Header,
   Name,
   PostContent,
+  StockAvatar,
   Text,
   Username
 } from './styles'
+import formataHora from '../../utils/formataHora'
 
 type Props = {
   avatarUrl: string
@@ -25,18 +27,29 @@ const Post = ({ avatarUrl, name, username, content, date }: Props) => {
   return (
     <>
       <Container>
-        <Avatar src={avatarUrl} alt="Avatar" />
+        {avatarUrl === '' ? (
+          <StockAvatar>{username.charAt(0).toUpperCase()}</StockAvatar>
+        ) : (
+          <Avatar src={avatarUrl} alt="Avatar" />
+        )}
         <PostContent>
           <Header>
-            <Name onClick={() => navigate(`/perfil/${username}`)}>
-              {username}
-            </Name>
-            <Username>@{username}</Username>
+            {name === '' ? (
+              <Name onClick={() => navigate(`/perfil/${username}`)}>
+                {username}
+              </Name>
+            ) : (
+              <Name onClick={() => navigate(`/perfil/${username}`)}>
+                {name}
+              </Name>
+            )}
             <Dot>·</Dot>
-            <Username>{date}</Username>
+            <Username>@{username}</Username>
           </Header>
           <Text>{content}</Text>
-          <Actions></Actions>
+          <Actions>
+            <small>{formataHora(date)}</small>
+          </Actions>
         </PostContent>
       </Container>
     </>

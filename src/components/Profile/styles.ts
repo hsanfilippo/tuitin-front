@@ -10,13 +10,24 @@ export const Container = styled.div`
 export const Banner = styled.div<{ bannerUrl: string }>`
   max-width: 100%;
   height: 200px;
+  background-color: ${cores.cinzaClaro};
   background-image: url(${(props) => props.bannerUrl});
   background-size: cover;
   background-position: center;
   position: relative;
   margin-bottom: 60px;
   margin-left: 72px;
+
+  .no-image {
+    max-width: 100%;
+    height: 200px;
+    background-image: none;
+    position: relative;
+    margin-bottom: 60px;
+    margin-left: 72px;
+  }
 `
+export const StockBanner = styled.div``
 
 export const Avatar = styled.img`
   width: 130px;
@@ -27,6 +38,23 @@ export const Avatar = styled.img`
   bottom: -65px;
   left: 16px;
   background-color: ${cores.preto};
+`
+
+export const StockAvatar = styled.div`
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 4px solid ${cores.azulClaro};
+  position: absolute;
+  bottom: -65px;
+  left: 16px;
+  background-color: ${cores.azulClaroSub};
+  text-align: center;
+  font-size: 64px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export const Content = styled.div`

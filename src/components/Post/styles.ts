@@ -16,6 +16,20 @@ export const Avatar = styled.img`
   margin-right: 12px;
 `
 
+export const StockAvatar = styled.div`
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 12px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${cores.azulClaro};
+`
+
 export const PostContent = styled.div`
   flex: 1;
 `
@@ -54,7 +68,7 @@ export const Actions = styled.div`
   display: flex;
   justify-content: space-between;
   max-width: 425px;
-  color: #71767b;
+  color: ${cores.cinzaClaro};
   font-size: 14px;
 
   svg {

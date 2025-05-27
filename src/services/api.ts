@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { GetPostTypes, NewPostTypes } from '../models/PostTypes'
 
 type AuthPayload = {
   username: string
@@ -20,6 +21,10 @@ type UserData = {
     cover?: string | null
     name?: string | null
   }
+}
+
+type NewPost = {
+  content: string
 }
 
 const api = createApi({
@@ -86,6 +91,23 @@ const api = createApi({
           Authorization: `Bearer ${localStorage.getItem('access')}`
         }
       })
+    }),
+    getPosts: builder.query<GetPostTypes[], void>({
+      query: () => ({
+        url: 'posts/',
+        method: 'GET'
+      })
+    }),
+    postNewPost: builder.mutation<any, NewPost>({
+      query: (body) => ({
+        url: 'posts/',
+        method: 'POST',
+        body: body,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json'
+        }
+      })
     })
   })
 })
@@ -97,7 +119,9 @@ export const {
   usePostFollowMutation,
   usePostUnfollowMutation,
   useGetIsFollowingQuery,
-  usePatchUpdateMeMutation
+  usePatchUpdateMeMutation,
+  useGetPostsQuery,
+  usePostNewPostMutation
 } = api
 
 export default api

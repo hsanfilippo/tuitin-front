@@ -1,20 +1,19 @@
 import Post from '../Post'
-import PostTypes from '../../models/PostTypes'
 
-type Props = {
-  posts: PostTypes[]
-}
+import { useGetPostsQuery } from '../../services/api'
 
-const PostsHome = ({ posts }: Props) => {
+const PostsHome = () => {
+  const { data: posts } = useGetPostsQuery()
+
   return (
     <>
-      {posts.map((post) => (
+      {posts?.map((post) => (
         <Post
           key={post.id}
-          avatarUrl={post.avatarUrl}
-          name={post.name}
-          username={post.username}
-          date={post.date}
+          avatarUrl={post.author_avatar}
+          name={post.author_name}
+          username={post.author_username}
+          date={post.created_at}
           content={post.content}
         />
       ))}

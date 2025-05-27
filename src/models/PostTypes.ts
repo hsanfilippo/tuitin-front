@@ -1,10 +1,19 @@
-type PostTypes = {
-  id: number
-  avatarUrl: string
-  name: string
-  username: string
+export type GetPostTypes = {
+  id: string
+  author_username: string
+  author_avatar: string
+  author_name: string
   content: string
-  date: string
+  created_at: string
+  author: number
 }
 
-export default PostTypes
+export type NewPostTypes = {
+  author_username: string
+  author_avatar: string
+  author_name: string
+  content: string
+  created_at: string
+}
+
+export default GetPostTypes

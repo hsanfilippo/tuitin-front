@@ -1,9 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import { RootReducer } from '../../store'
-import { setUserLogedIn } from '../../store/reducers/auth'
 
 import {
   usePostAuthMutation,
@@ -20,11 +16,7 @@ const LoginCadastroForm = () => {
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const { userLogedIn } = useSelector((state: RootReducer) => state.auth)
-
-  const [authenticate, { isLoading, isError, isSuccess }] =
-    usePostAuthMutation()
+  const [authenticate] = usePostAuthMutation()
   const [register] = usePostRegisterMutation()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,10 +60,9 @@ const LoginCadastroForm = () => {
           }
         })
         const dataMe = await responseMe.json()
-        dispatch(setUserLogedIn(dataMe.username))
-
-        console.log(localStorage.getItem('access'))
-        console.log(localStorage.getItem('refresh'))
+        localStorage.setItem('userLogedIn', dataMe.username)
+        // console.log(localStorage.getItem('access'))
+        // console.log(localStorage.getItem('refresh'))
 
         setUsername('')
         setPassword('')
@@ -82,10 +73,11 @@ const LoginCadastroForm = () => {
     }
   }
 
-  // Debug:
-  useEffect(() => {
-    console.log(`Usuário logado: ${userLogedIn}`)
-  }, [userLogedIn])
+  // // Debug:
+  // const userLogedIn = localStorage.getItem('userLogedIn')
+  // useEffect(() => {
+  //   console.log(`Usuário logado: ${userLogedIn}`)
+  // }, [userLogedIn])
 
   return (
     <Container>

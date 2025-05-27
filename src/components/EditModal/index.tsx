@@ -24,27 +24,14 @@ const EditModal = ({ onClose }: EditProfileModalProps) => {
 
   const [name, setName] = useState('')
   const [bio, setBio] = useState('')
-  const [birthdate, setBirthdate] = useState('')
   const [avatar, setAvatar] = useState('')
   const [cover, setCover] = useState('')
   const [newUsername, setNewUsername] = useState('')
-
-  const [newData, setNewData] = useState({
-    username: '',
-    profile: {
-      avatar: '',
-      bio: '',
-      birthdate: '',
-      cover: '',
-      name: ''
-    }
-  })
 
   useEffect(() => {
     if (userData) {
       setName(userData.profile?.name || '')
       setBio(userData.profile?.bio || '')
-      setBirthdate(userData.profile?.birthdate || '')
       setAvatar(userData.profile?.avatar || '')
       setCover(userData.profile?.cover || '')
       setNewUsername(userData.username || '')
@@ -55,11 +42,9 @@ const EditModal = ({ onClose }: EditProfileModalProps) => {
     e.preventDefault()
     try {
       await updateProfile({
-        username: newUsername,
         profile: {
           avatar,
           bio,
-          birthdate,
           cover,
           name
         }
@@ -102,14 +87,6 @@ const EditModal = ({ onClose }: EditProfileModalProps) => {
             <InputItem>
               <label>Bio</label>
               <textarea value={bio} onChange={(e) => setBio(e.target.value)} />
-            </InputItem>
-            <InputItem>
-              <label>Nascimento</label>
-              <input
-                type="date"
-                value={birthdate}
-                onChange={(e) => setBirthdate(e.target.value)}
-              />
             </InputItem>
             <ButtonsContainer>
               <button type="submit">Salvar</button>
