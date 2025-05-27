@@ -1,8 +1,8 @@
 import Post from '../Post'
-import PostTypes from '../../models/PostTypes'
+import GetPostTypes from '../../models/PostTypes'
 
 type Props = {
-  posts: PostTypes[]
+  posts: GetPostTypes[]
 }
 
 const PostsHome = ({ posts }: Props) => {
@@ -11,10 +11,10 @@ const PostsHome = ({ posts }: Props) => {
       {posts.map((post) => (
         <Post
           key={post.id}
-          avatarUrl={post.avatarUrl}
-          name={post.name}
-          username={post.username}
-          date={post.date}
+          avatarUrl={post.author_avatar}
+          name={post.author_name}
+          username={post.author_username}
+          date={post.created_at}
           content={post.content}
         />
       ))}
