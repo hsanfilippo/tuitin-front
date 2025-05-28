@@ -30,7 +30,7 @@ const LoginCadastroForm = () => {
 
       try {
         const response = await register(registerPayload).unwrap()
-        console.log(response)
+        // console.log(response)
 
         setEmail('')
         setUsername('')
@@ -48,17 +48,20 @@ const LoginCadastroForm = () => {
 
       try {
         const response = await authenticate(loginPayload).unwrap()
-        console.log(response)
+        // console.log(response)
         localStorage.setItem('access', response.access)
         localStorage.setItem('refresh', response.refresh)
 
         // GET em /api/me para armazenar o username logado no momento,
         // apenas se o login for autenticado corretamente (existir o access).
-        const responseMe = await fetch('http://localhost:8000/api/me/', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access')}`
+        const responseMe = await fetch(
+          'https://tuitin-back.onrender.com/api/me/',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('access')}`
+            }
           }
-        })
+        )
         const dataMe = await responseMe.json()
         localStorage.setItem('userLogedIn', dataMe.username)
         // console.log(localStorage.getItem('access'))

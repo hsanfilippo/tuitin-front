@@ -27,9 +27,14 @@ type NewPost = {
   content: string
 }
 
+type NewComment = {
+  post: string
+  content: string
+}
+
 const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8000/api'
+    baseUrl: 'https://tuitin-back.onrender.com/api'
   }),
   endpoints: (builder) => ({
     getUserData: builder.query<UserData, string>({
@@ -108,6 +113,37 @@ const api = createApi({
           'Content-Type': 'application/json'
         }
       })
+    }),
+    deletePost: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `posts/${id}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+    }),
+    likePost: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `posts/${id}/toggle_like/`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+    }),
+    newComment: builder.mutation<any, NewComment>({
+      query: (body) => ({
+        url: 'comentarios/',
+        method: 'POST',
+        body: body,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json'
+        }
+      })
     })
   })
 })
@@ -121,7 +157,8 @@ export const {
   useGetIsFollowingQuery,
   usePatchUpdateMeMutation,
   useGetPostsQuery,
-  usePostNewPostMutation
+  usePostNewPostMutation,
+  useDeletePostMutation
 } = api
 
 export default api

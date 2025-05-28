@@ -30,7 +30,7 @@ const Profile = () => {
   // Desestruturacao da store
   const userLogedIn = localStorage.getItem('userLogedIn')
   const { username } = useParams<{ username: string }>()
-  console.log(`Voce esta visitando o perfil de: ${username}`)
+  // console.log(`Voce esta visitando o perfil de: ${username}`)
 
   // Alias dos Hooks
   const [followUser] = usePostFollowMutation()
@@ -91,6 +91,9 @@ const Profile = () => {
               <Name>{userData.profile?.name}</Name>
             )}
             <Username>@{userData.username}</Username>
+          </Content>
+          <Content>
+            <p>{userData.profile?.bio}</p>
           </Content>
           <Content>
             <h4>Posts</h4>

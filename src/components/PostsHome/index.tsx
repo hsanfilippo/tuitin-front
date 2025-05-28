@@ -15,6 +15,8 @@ const PostsHome = () => {
           username={post.author_username}
           date={post.created_at}
           content={post.content}
+          id={post.id}
+          comments={post.comments}
         />
       ))}
     </>
