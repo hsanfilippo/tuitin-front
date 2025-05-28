@@ -54,11 +54,14 @@ const LoginCadastroForm = () => {
 
         // GET em /api/me para armazenar o username logado no momento,
         // apenas se o login for autenticado corretamente (existir o access).
-        const responseMe = await fetch('http://localhost:8000/api/me/', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access')}`
+        const responseMe = await fetch(
+          'https://tuitin-back.onrender.com/api/me/',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('access')}`
+            }
           }
-        })
+        )
         const dataMe = await responseMe.json()
         localStorage.setItem('userLogedIn', dataMe.username)
         // console.log(localStorage.getItem('access'))

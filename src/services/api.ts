@@ -34,7 +34,7 @@ type NewComment = {
 
 const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8000/api'
+    baseUrl: 'https://tuitin-back.onrender.com/api'
   }),
   endpoints: (builder) => ({
     getUserData: builder.query<UserData, string>({
