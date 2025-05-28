@@ -30,7 +30,7 @@ const LoginCadastroForm = () => {
 
       try {
         const response = await register(registerPayload).unwrap()
-        console.log(response)
+        // console.log(response)
 
         setEmail('')
         setUsername('')
@@ -48,7 +48,7 @@ const LoginCadastroForm = () => {
 
       try {
         const response = await authenticate(loginPayload).unwrap()
-        console.log(response)
+        // console.log(response)
         localStorage.setItem('access', response.access)
         localStorage.setItem('refresh', response.refresh)
 
