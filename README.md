@@ -1,46 +1,50 @@
-# Getting Started with Create React App
+# 🐳 Tuitin - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este é o front-end do **Tuitin**, um microblog minimalista inspirado no Twitter. A aplicação foi construída com React, Redux Toolkit e Styled Components.
 
-## Available Scripts
+> 🔗 Produção: https://tuitin.vercel.app/
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Funcionalidades
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- 📤 **Criação de tuits**
+- 📤 **Cadastro e login de usuários**
+- 📖 **Listagem e detalhes de tuits**
+- ✏️ **Edição de tuits**
+- ❌ **Exclusão de tuits**
+- 🔄 **Seguir/desseguir outros usuários**
+- 🖼️ **Alteração de perfil (imagem, capa, nome, etc.)**
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🧪 Tecnologias Utilizadas
+- ⚛️ React (com Create React App)
+- ⚛️ Redux Toolkit
+- 🟦 TypeScript
+- 🔐 JWT (JSON Web Token) para autenticação
+- 📦 Redux Toolkit Query para consumo da API
+- 🎨 Styled-components para estilização
+- 🛠️ ESLint + Prettier para padronização de código
+- 🌐 Vercel para deploy gratuito
 
-### `npm test`
+## 📦 Instalação
+### 1 - Clone o repositório:
+- `git clone https://github.com/hsanfilippo/tuitin-front.git`
+- `cd tuitin-front`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 2 - Instale as dependências:
+- `npm install`
 
-### `npm run build`
+### 3 - Inicie o servidor local:
+- `npm start`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 4 - Acesse `http://localhost:3000` no navegador.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Importante:
+  - Leia o README de https://github.com/hsanfilippo/tuitin-back para configurar a API e DB para funcionamento correto da aplicação.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛡️ Autenticação
+O sistema de autenticação usa JWT (JSON Web Token). O token é armazenado localmente (`localStorage`) e adicionado automaticamente às requisições protegidas.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🤝 Contribuindo
+Contribuições são bem-vindas!
+Abra uma issue ou envie um PR.
